@@ -1,5 +1,5 @@
 import UserInfo from './UserInfo';
-import { UserContext } from './UserContext';
+import { UserContext } from './components/UserContext';
 
 function ProfilePage() {
   return <UserInfo />;
