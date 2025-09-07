@@ -4,9 +4,11 @@ import { createContext, useContext } from 'react';
 
 function App() {
   const user = useContext(UserContext);
-  
+  const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
   return (
-  <ProfilePage />
+    <UserContext.Provider value={userData}>
+      <ProfilePage />
+    </UserContext.Provider>
 );
 }
 
