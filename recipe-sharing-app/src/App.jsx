@@ -2,6 +2,8 @@ import RecipeList from "./components/RecipeList"
 import AddRecipeForm from "./components/AddRecipeForm"
 import RecipeDetails from "./components/RecipeDetails"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import RecommendationsList from "./components/RecommendationsList";
+import FavoritesList from "./components/FavoritesList";
 
 function App() {
 
@@ -10,6 +12,8 @@ function App() {
     <Routes>
         <Route path="/" element={
           <>
+          <FavoritesList />
+          <RecommendationsList />
           <AddRecipeForm />
           <RecipeList />
           </>
