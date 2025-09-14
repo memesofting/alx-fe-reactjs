@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import useRecipeStore from "./recipeStore";
 
 const EditRecipeForm = ({ recipeId, onDone }) => {
-  const { recipes, editRecipe } = useRecipeStore();
+  const { recipes, update } = useRecipeStore();
   const recipe = recipes.find((r) => r.id === recipeId);
 
   const [title, setTitle] = useState("");
@@ -18,7 +18,7 @@ const EditRecipeForm = ({ recipeId, onDone }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    editRecipe({ id: recipeId, title, description });
+    update({ id: recipeId, title, description });
 
     if (onDone) onDone(); // optional: close form or return
   };
