@@ -20,7 +20,7 @@ const EditRecipeForm = ({ recipeId, onDone }) => {
 
     update({ id: recipeId, title, description });
 
-    if (onDone) onDone(); // optional: close form or return
+    if (onDone) onDone();
   };
 
   if (!recipe) {

@@ -17,26 +17,17 @@ const RecipeDetails = ({ recipeId }) => {
       {/* <button>Edit Recipe Form</button>
       <button>Delete Recipe</button> */}
       {editing ? (
-        <EditRecipeForm
-          recipeId={recipeId}
-          onDone={() => setEditing(false)}
-        />
+        <EditRecipeForm recipeId={recipeId} onDone={() => setEditing(false)} />
       ) : (
         <>
           <button onClick={() => setEditing(true)}>Edit Recipe</button>
           <button onClick={() => setEditing(true)}>Edit Recipe</button>
-          <button
-            onClick={() => {
-              const confirmDelete = window.confirm(
-                "Are you sure you want to delete this recipe?"
-              );
-              if (confirmDelete) {
-                deleteRecipe(recipeId);
-              }
+          <DeleteRecipeButton
+            recipeId={recipeId}
+            onDeleted={() => {
+              console.log("Recipe deleted");
             }}
-          >
-            Delete Recipe
-          </button>
+          />
         </>
       )}
     </div>
