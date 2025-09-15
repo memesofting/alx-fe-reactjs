@@ -1,9 +1,16 @@
+import { useMemo } from 'react';
 import { useRecipeStore } from './recipeStore';
+import { shallow } from 'zustand/shallow';
 
-const RecommendationsList = () => {
-  const recommendations = useRecipeStore(state => state.recommendations.map(id =>
-    state.recipes.find(recipe => recipe.id === id)
-  ));
+export const RecommendationsList = () => {
+  const recommendationsIds = useRecipeStore(state => state.recommendations, shallow);
+  const recipes = useRecipeStore(state => state.recipes, shallow);
+
+  const recommendations = useMemo(() => {
+    return recommendationsIds.map(id =>
+      recipes.find(recipe => recipe.id === id)
+    );
+  }, [recommendationsIds, recipes]);
 
   return (
     <div>
@@ -17,5 +24,3 @@ const RecommendationsList = () => {
     </div>
   );
 };
-
-export default RecommendationsList;

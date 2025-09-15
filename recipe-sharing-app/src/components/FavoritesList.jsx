@@ -1,9 +1,15 @@
 import { useRecipeStore } from './recipeStore';
+import { useMemo } from 'react';
 
-const FavoritesList = () => {
-  const favorites = useRecipeStore(state => state.favorites.map(id =>
-    state.recipes.find(recipe => recipe.id === id)
-  ));
+export const FavoritesList = () => {
+  const favoritesIds = useRecipeStore(state => state.favorites);
+  const recipes = useRecipeStore(state => state.recipes);
+
+  const favorites = useMemo(() => {
+    return favoritesIds.map(id =>
+      recipes.find(recipe => recipe.id === id)
+    );
+  }, [favoritesIds, recipes]);
 
   return (
     <div>
@@ -17,5 +23,3 @@ const FavoritesList = () => {
     </div>
   );
 };
-
-export default FavoritesList;
