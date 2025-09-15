@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useRecipeStore } from './recipeStore';
 import { shallow } from 'zustand/shallow';
 
-export const RecommendationsList = () => {
+const RecommendationsList = () => {
   const recommendationsIds = useRecipeStore(state => state.recommendations, shallow);
   const recipes = useRecipeStore(state => state.recipes, shallow);
 
@@ -24,3 +24,4 @@ export const RecommendationsList = () => {
     </div>
   );
 };
+export default RecommendationsList;
