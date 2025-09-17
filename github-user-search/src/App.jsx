@@ -1,7 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+
 function App() {
-  return ( <>
-  <h1>Welcome to github search</h1>
-  </> );
+  return (
+    <BrowserRouter>
+      
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
