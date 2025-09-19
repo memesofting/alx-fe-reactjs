@@ -14,7 +14,7 @@ const RecommendationsList = () => {
 
   return (
     <div>
-      <h2>My Favorites</h2>
+      <h2>My Recommendations</h2>
       {recommendations.map(recipe => (
         <div key={recipe.id}>
           <h3>{recipe.title}</h3>
