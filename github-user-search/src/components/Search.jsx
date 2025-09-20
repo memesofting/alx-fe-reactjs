@@ -30,15 +30,16 @@ function Search() {
     <>
       <form onSubmit={searchUser}>
         <label htmlFor="searchUser">Search github user</label>
-        <input
+        <input 
+        className="bg-gray-300 text-gray-900"
           type="text"
           value={user}
           placeholder="Enter username"
           onChange={(e) => setUser(e.target.value)}
         />
-        <button type="submit">Search</button>
+        <button className="bg-green-700" type="submit">Search</button>
       </form>
-      
+
       {isLoading && (
         <p>Loading ...</p>
       )}
