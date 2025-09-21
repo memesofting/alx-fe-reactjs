@@ -5,29 +5,27 @@ function Search() {
   const [user, setUser] = useState("");
   const [location, setLocation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [error, setError] = useState("");
 
-  const searchUser = (e) => {
+  const searchUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
     const queryParts = [];
-    if (user)
-    {
+    if (user) {
       queryParts.push(user);
     }
-    if (location)
-    {
+    if (location) {
       queryParts.push(`location:${location}`);
     }
 
-    const query = queryParts.join('+');
+    const query = queryParts.join("+");
 
     fetchUserData(query)
       .then((response) => {
-        setUserData(response.data);
+        setUserData(response.data.items || []);
         console.log(response.data);
       })
       .catch((err) => {
@@ -66,10 +64,32 @@ function Search() {
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {userData && (
+      {/* {userData && (
         <div>
           <img src={userData.avatar_url} alt={`${userData.login}'s avatar`} />
           <p>{userData.location}</p>
+        </div>
+      )} */}
+
+      {userData.length > 0 && (
+        <div>
+          <h2>Users found: {userData.length}</h2>
+          <ul>
+            {userData.map((user) => (
+              <li key={user.id}>
+                <a href={user.html_url} target="_blank" rel="noreferrer">
+                  <img
+                    src={user.avatar_url}
+                    alt={`${user.login}'s avatar`}
+                    width="50"
+                    height="50"
+                    style={{ borderRadius: "50%" }}
+                  />
+                  <p>{user.login}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </>
