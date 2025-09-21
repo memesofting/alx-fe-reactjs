@@ -23,19 +23,17 @@ function Search() {
 
     const query = queryParts.join("+");
 
-    fetchUserData(query)
-      .then((response) => {
-        setUserData(response.data.items || []);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching users: ", err);
-        setError("Looks like we cant find the user");
-        setUserData(null);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    try {
+      const response = await fetchUserData(query);
+      setUserData(response.data.items || []);
+      console.log(response.data);
+    } catch (err) {
+      console.error("Error fetching users: ", err);
+      setError("Looks like we can't find the user");
+      setUserData(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
