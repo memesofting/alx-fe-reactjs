@@ -4,6 +4,7 @@ import fetchUserData from "../services/githubService";
 function Search() {
   const [user, setUser] = useState("");
   const [location, setLocation] = useState("");
+  const [minRepo, setMinRepo] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
   const [error, setError] = useState("");
@@ -21,10 +22,14 @@ function Search() {
       queryParts.push(`location:${location}`);
     }
 
-    const query = queryParts.join("+");
+    if (minRepo) {
+      queryParts.push(`repos:>${minRepo}`);
+    }
+
+    // const query = queryParts.join("+");
 
     try {
-      const response = await fetchUserData(query);
+      const response = await fetchUserData(location, minRepo);
       setUserData(response.data.items || []);
       console.log(response.data);
     } catch (err) {
@@ -37,7 +42,10 @@ function Search() {
   };
   return (
     <>
-      <form onSubmit={searchUser}>
+      <form
+        onSubmit={searchUser}
+        className="flex flex-col justify-center items-center gap-2"
+      >
         <label htmlFor="searchUser">Search github user</label>
         <input
           className="bg-gray-300 text-gray-900"
@@ -46,12 +54,21 @@ function Search() {
           placeholder="Enter username"
           onChange={(e) => setUser(e.target.value)}
         />
-        <label htmlFor="minRepo">Location</label>
+        <label htmlFor="location">Location</label>
         <input
+          className="bg-gray-300 text-gray-900"
           type="text"
           value={location}
-          placeholder="Enter min repo"
+          placeholder="Enter location"
           onChange={(e) => setLocation(e.target.value)}
+        />
+        <label htmlFor="minRepo">Minimum repo</label>
+        <input
+          className="bg-gray-300 text-gray-900"
+          type="text"
+          value={minRepo}
+          placeholder="Enter min repo"
+          onChange={(e) => setMinRepo(e.target.value)}
         />
         <button className="bg-green-700" type="submit">
           Search
@@ -74,16 +91,17 @@ function Search() {
           <h2>Users found: {userData.length}</h2>
           <ul>
             {userData.map((user) => (
-              <li key={user.id}>
+              <li key={user.id} className="inline-flex flex-row justify-center items-center p-3">
                 <a href={user.html_url} target="_blank" rel="noreferrer">
                   <img
+                  className="justify-center items-center"
                     src={user.avatar_url}
                     alt={`${user.login}'s avatar`}
                     width="50"
                     height="50"
                     style={{ borderRadius: "50%" }}
                   />
-                  <p>{user.login}</p>
+                  <p className="text-center text-wrap">{user.login}</p>
                 </a>
               </li>
             ))}
