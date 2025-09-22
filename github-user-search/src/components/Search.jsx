@@ -4,11 +4,15 @@ import fetchUserData from "../services/githubService";
 function Search() {
   const [user, setUser] = useState("");
   const [location, setLocation] = useState("");
-  const [minRepo, setMinRepo] = useState("");
+  const [minRepos, setMinRepo] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
   const [error, setError] = useState("");
 
+  // const [page, setPage] = useState(1);
+  // const perPage = 20;
+
+  
   const searchUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -22,24 +26,25 @@ function Search() {
       queryParts.push(`location:${location}`);
     }
 
-    if (minRepo) {
-      queryParts.push(`repos:>${minRepo}`);
+    if (minRepos) {
+      queryParts.push(`repos:>${minRepos}`);
     }
 
     // const query = queryParts.join("+");
 
     try {
-      const response = await fetchUserData(location, minRepo);
+      const response = await fetchUserData(location, minRepos);
       setUserData(response.data.items || []);
       console.log(response.data);
     } catch (err) {
       console.error("Error fetching users: ", err);
       setError("Looks like we can't find the user");
-      setUserData(null);
+      setUserData([]);
     } finally {
       setIsLoading(false);
-    }
-  };
+    };
+}
+
   return (
     <>
       <form
@@ -66,7 +71,7 @@ function Search() {
         <input
           className="bg-gray-300 text-gray-900"
           type="text"
-          value={minRepo}
+          value={minRepos}
           placeholder="Enter min repo"
           onChange={(e) => setMinRepo(e.target.value)}
         />
@@ -91,10 +96,13 @@ function Search() {
           <h2>Users found: {userData.length}</h2>
           <ul>
             {userData.map((user) => (
-              <li key={user.id} className="inline-flex flex-row justify-center items-center p-3">
+              <li
+                key={user.id}
+                className="inline-flex flex-row justify-center items-center p-3"
+              >
                 <a href={user.html_url} target="_blank" rel="noreferrer">
                   <img
-                  className="justify-center items-center"
+                    className="justify-center items-center"
                     src={user.avatar_url}
                     alt={`${user.login}'s avatar`}
                     width="50"
@@ -108,6 +116,24 @@ function Search() {
           </ul>
         </div>
       )}
+      {/* <div className="flex gap-4 mt-4">
+        <button
+          disabled={page === 1}
+          onClick={() => {
+            setPage((prev) => prev - 1);
+          }}
+        >
+          Previous
+        </button>
+
+        <button
+          onClick={() => {
+            setPage((prev) => prev + 1);
+          }}
+        >
+          Next
+        </button>
+      </div> */}
     </>
   );
 }
